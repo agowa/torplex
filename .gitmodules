@@ -1,0 +1,4 @@
+[submodule "aria2"]
+	path = aria2
+	url = https://github.com/aria2/aria2.git
+	branch = master

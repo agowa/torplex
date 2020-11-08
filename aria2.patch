@@ -1,0 +1,27 @@
+diff --git a/src/DownloadCommand.cc b/src/DownloadCommand.cc
+index 2db41e46..f49eb807 100644
+--- a/src/DownloadCommand.cc
++++ b/src/DownloadCommand.cc
+@@ -306,7 +306,7 @@ void DownloadCommand::checkLowestDownloadSpeed() const
+           startupIdleTime_) {
+     int nowSpeed = peerStat_->calculateDownloadSpeed();
+     if (nowSpeed <= lowestDownloadSpeedLimit_) {
+-      throw DL_ABORT_EX2(fmt(EX_TOO_SLOW_DOWNLOAD_SPEED, nowSpeed,
++      throw DL_RETRY_EX2(fmt(EX_TOO_SLOW_DOWNLOAD_SPEED, nowSpeed,
+                              lowestDownloadSpeedLimit_,
+                              getRequest()->getHost().c_str()),
+                          error_code::TOO_SLOW_DOWNLOAD_SPEED);
+diff --git a/src/OptionHandlerFactory.cc b/src/OptionHandlerFactory.cc
+index 6bff4caa..b3cf0078 100644
+--- a/src/OptionHandlerFactory.cc
++++ b/src/OptionHandlerFactory.cc
+@@ -440,7 +440,7 @@ std::vector<OptionHandler*> OptionHandlerFactory::createOptionHandlers()
+   {
+     OptionHandler* op(new NumberOptionHandler(PREF_MAX_CONNECTION_PER_SERVER,
+                                               TEXT_MAX_CONNECTION_PER_SERVER,
+-                                              "1", 1, 16, 'x'));
++                                              "1", 1, 1600, 'x'));
+     op->addTag(TAG_BASIC);
+     op->addTag(TAG_FTP);
+     op->addTag(TAG_HTTP);
+
